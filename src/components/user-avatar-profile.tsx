@@ -13,7 +13,11 @@ interface UserAvatarProfileProps {
 export function UserAvatarProfile({
   className,
   showInfo = false,
-  user
+  user = {
+    imageUrl: '',
+    fullName: '',
+    emailAddresses: [{ emailAddress: '' }]
+  }
 }: UserAvatarProfileProps) {
   return (
     <div className='flex items-center gap-2'>

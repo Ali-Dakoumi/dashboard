@@ -10,10 +10,13 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { UserAvatarProfile } from '@/components/user-avatar-profile';
-import { SignOutButton, useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 export function UserNav() {
-  const { user } = useUser();
+  const user = {
+    // mock user
+    fullName: 'User User',
+    emailAddresses: [{ emailAddress: 'KbV2t@example.com' }]
+  };
   const router = useRouter();
   if (user) {
     return (
@@ -50,7 +53,7 @@ export function UserNav() {
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
-            <SignOutButton redirectUrl='/auth/sign-in' />
+            <p>Logout</p>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

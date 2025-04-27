@@ -103,11 +103,7 @@ function getAreaById(id: string) {
   return areas.find((area) => area.id.toString() === id) || null;
 }
 
-export default function AreaDetailsPage({
-  params: { id }
-}: {
-  params: { id: string };
-}) {
+export default function AreaDetailsPage({ params: { id } }: any) {
   const area = getAreaById(id);
 
   if (!area) {
@@ -487,10 +483,10 @@ export default function AreaDetailsPage({
                           <p className='text-muted-foreground text-sm'>
                             Size:{' '}
                             {(
-                              area.size.split(' ')[0] /
+                              +area.size.split(' ')[0] /
                               (area.subAreasNumber + 1)
                             ).toFixed(2)}{' '}
-                            Hectar
+                            Hectar Hectar
                           </p>
                         </div>
                       </CardContent>
