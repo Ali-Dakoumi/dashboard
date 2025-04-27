@@ -181,7 +181,7 @@ const areas = [
 ];
 
 // Helper function to get status color
-const getStatusColor = (status) => {
+const getStatusColor = (status: string) => {
   switch (status) {
     case 'Active':
       return 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200';
@@ -193,7 +193,7 @@ const getStatusColor = (status) => {
 };
 
 // Helper function to get productivity color
-const getProductivityColor = (productivity) => {
+const getProductivityColor = (productivity: string) => {
   switch (productivity) {
     case 'High':
       return 'text-emerald-600';
@@ -207,7 +207,7 @@ const getProductivityColor = (productivity) => {
 };
 
 // Helper function to get crop icon
-const getCropIcon = (cropType) => {
+const getCropIcon = (cropType: string) => {
   switch (cropType) {
     case 'Wheat':
       return <Crop className='h-4 w-4 text-amber-600' />;
@@ -221,7 +221,7 @@ const getCropIcon = (cropType) => {
 };
 
 // Helper function to get irrigation icon
-const getIrrigationIcon = (irrigationType) => {
+const getIrrigationIcon = (irrigationType: string) => {
   switch (irrigationType) {
     case 'Drip':
       return <Droplets className='h-4 w-4 text-blue-600' />;
@@ -285,7 +285,7 @@ export default function AreasTable() {
   }, [filter, statusFilter]);
 
   // Handle row click to navigate to area details or select for map
-  const handleRowClick = (areaId) => {
+  const handleRowClick = (areaId: number) => {
     if (showMapView) {
       setSelectedAreaId(areaId);
     } else {
