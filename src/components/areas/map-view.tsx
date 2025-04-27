@@ -31,7 +31,9 @@ export function MapView({
         4: 'Field B',
         5: 'Field C'
       };
-      setAreaName(mockAreas[selectedAreaId] || 'Unknown Area');
+      setAreaName(
+        mockAreas[selectedAreaId as keyof typeof mockAreas] || 'Unknown Area'
+      );
     } else {
       setAreaName('');
     }
