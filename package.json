@@ -21,7 +21,7 @@
     "start:agrisense": "env-cmd -f .env.agrisense.production next start",
     "start:netirrig": "env-cmd -f .env.netirrig.production next start",
     "lint": "next lint",
-    "lint:fix": "eslint src --fix && pnpm format",
+    "lint:fix": "eslint src --fix && npm format",
     "lint:strict": "eslint --max-warnings=0 src",
     "format": "prettier --write .",
     "format:check": "prettier -c -w .",
