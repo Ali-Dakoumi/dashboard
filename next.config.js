@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  env: {
+    // Default platform if not specified elsewhere
+    NEXT_PLATFORM: process.env.NEXT_PLATFORM || 'agrisense'
+  },
   images: {
     remotePatterns: [
       {
