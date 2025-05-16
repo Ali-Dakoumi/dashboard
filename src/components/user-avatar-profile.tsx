@@ -1,12 +1,13 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { generateAvatarGradient, getInitials } from '@/lib/utils/avatar';
 
 interface UserAvatarProfileProps {
   className?: string;
   showInfo?: boolean;
   user: {
     imageUrl?: string;
-    fullName?: string | null;
-    emailAddresses: Array<{ emailAddress: string }>;
+    name?: string | null;
+    email?: string | null;
   } | null;
 }
 
@@ -15,24 +16,29 @@ export function UserAvatarProfile({
   showInfo = false,
   user = {
     imageUrl: '',
-    fullName: '',
-    emailAddresses: [{ emailAddress: '' }]
+    name: '',
+    email: ''
   }
 }: UserAvatarProfileProps) {
+  const initials = getInitials(user?.name || '');
+  const gradientStyle = {
+    background: generateAvatarGradient(user?.name || user?.email || 'User')
+  };
+
   return (
     <div className='flex items-center gap-2'>
       <Avatar className={className}>
-        <AvatarImage src={user?.imageUrl || ''} alt={user?.fullName || ''} />
-        <AvatarFallback className='rounded-lg'>
-          {user?.fullName?.slice(0, 2)?.toUpperCase() || 'CN'}
+        <AvatarImage src={user?.imageUrl || ''} alt={user?.name || ''} />
+        <AvatarFallback className='rounded-lg' style={gradientStyle}>
+          <span className='text-primary-foreground'>{initials}</span>
         </AvatarFallback>
       </Avatar>
 
       {showInfo && (
         <div className='grid flex-1 text-left text-sm leading-tight'>
-          <span className='truncate font-semibold'>{user?.fullName || ''}</span>
-          <span className='truncate text-xs'>
-            {user?.emailAddresses[0].emailAddress || ''}
+          <span className='truncate font-semibold'>{user?.name || 'User'}</span>
+          <span className='text-muted-foreground truncate text-xs'>
+            {user?.email || ''}
           </span>
         </div>
       )}

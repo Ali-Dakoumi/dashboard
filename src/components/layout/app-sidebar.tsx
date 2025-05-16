@@ -45,6 +45,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import * as React from 'react';
 import { Icons } from '../icons';
 import { OrgSwitcher } from '../org-switcher';
+import { SignOutButton } from '../sign-out-button';
 export const company = {
   name: 'Acme Inc',
   logo: IconPhotoUp,
@@ -207,8 +208,7 @@ export default function AppSidebar() {
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                  <IconLogout className='mr-2 h-4 w-4' />
-                  <p> Logout</p>
+                  <SignOutButton />
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

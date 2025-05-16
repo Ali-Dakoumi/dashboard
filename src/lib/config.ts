@@ -1,70 +1,68 @@
-type Platform = 'agrisense' | 'netirrig';
-type Environment = 'development' | 'production';
+import { PLATFORM } from './platform';
 
 interface PlatformConfig {
-  name: string;
-  environment: Environment;
-  apiUrl: string;
-  features: string[];
-  // Add any other configuration properties you need
+  logo: string;
+  primaryColor: string;
 }
 
-// Get the current platform from environment variables
-export function getCurrentPlatform(): Platform {
-  // This can be set via environment variables or build arguments
-  return (process.env.NEXT_PLATFORM as Platform) || 'agrisense';
+interface AppEnvConfig {
+  PLATFORM?: string;
+  NODE_OPTIONS?: string;
+  SEABEX_VERSION?: string;
+  RELEASE_DATE?: string;
+  PORT?: string;
+  PUSHER_KEY_NETIRRIG?: string;
+  NEXT_PUBLIC_PUSHER_HOST_NETIRRIG?: string;
+  PUSHER_PORT_NETIRRIG?: string;
+  NEXT_PUBLIC_NEXT_PUBLIC_BROADCASTING_URL_NETIRRIG?: string;
+  NEXT_PUBLIC_DATABASE_URL?: string;
+  GOOGLE_MAPS_API_KEY?: string;
+  NEXT_PUBLIC_BROKER_URL?: string;
+  PAYMEE_URL?: string;
+  STRIPE_KEY_TEST?: string;
+  STRIPE_KEY_LIVE?: string;
+  NEXT_PUBLIC_CYPRESS_BASE_URL_NETIRRIG?: string;
+  NEXTAUTH_SECRET?: string;
 }
 
-// Get the current environment
-export function getCurrentEnvironment(): Environment {
-  return process.env.NODE_ENV === 'production' ? 'production' : 'development';
+interface Config {
+  [key: string]: PlatformConfig;
 }
 
-// Configuration for each platform and environment
-const configs: Record<Platform, Record<Environment, PlatformConfig>> = {
+export const envConfig: AppEnvConfig = {
+  PLATFORM: process.env.NEXT_PUBLIC_PLATFORM,
+  NODE_OPTIONS: process.env.NODE_OPTIONS,
+  SEABEX_VERSION: process.env.SEABEX_VERSION,
+  RELEASE_DATE: process.env.RELEASE_DATE,
+  PORT: process.env.PORT,
+  PUSHER_KEY_NETIRRIG: process.env.PUSHER_KEY_NETIRRIG,
+  NEXT_PUBLIC_PUSHER_HOST_NETIRRIG:
+    process.env.NEXT_PUBLIC_PUSHER_HOST_NETIRRIG,
+  PUSHER_PORT_NETIRRIG: process.env.PUSHER_PORT_NETIRRIG,
+  NEXT_PUBLIC_NEXT_PUBLIC_BROADCASTING_URL_NETIRRIG:
+    process.env.NEXT_PUBLIC_NEXT_PUBLIC_BROADCASTING_URL_NETIRRIG,
+  NEXT_PUBLIC_DATABASE_URL: process.env.NEXT_PUBLIC_DATABASE_URL,
+  GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
+  NEXT_PUBLIC_BROKER_URL: process.env.NEXT_PUBLIC_BROKER_URL,
+  PAYMEE_URL: process.env.PAYMEE_URL,
+  STRIPE_KEY_TEST: process.env.STRIPE_KEY_TEST,
+  STRIPE_KEY_LIVE: process.env.STRIPE_KEY_LIVE,
+  NEXT_PUBLIC_CYPRESS_BASE_URL_NETIRRIG:
+    process.env.NEXT_PUBLIC_CYPRESS_BASE_URL_NETIRRIG,
+  NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET
+};
+
+const config: Config = {
   agrisense: {
-    development: {
-      name: 'AgriSense',
-      environment: 'development',
-      apiUrl: process.env.NEXT_PUBLIC_API_URL || 'not able to load it',
-      features: ['soil-monitoring', 'weather-forecast', 'crop-analysis']
-    },
-    production: {
-      name: 'AgriSense',
-      environment: 'production',
-      apiUrl: process.env.NEXT_PUBLIC_API_URL || 'not able to load it',
-      features: [
-        'soil-monitoring',
-        'weather-forecast',
-        'crop-analysis',
-        'advanced-analytics'
-      ]
-    }
+    logo: '/logo-agrisense.png',
+    primaryColor: '#00A859'
   },
   netirrig: {
-    development: {
-      name: 'NetIrrig',
-      environment: 'development',
-      apiUrl: process.env.NEXT_PUBLIC_API_URL || 'not able to load it',
-      features: ['irrigation-control', 'water-usage-monitoring']
-    },
-    production: {
-      name: 'NetIrrig',
-      environment: 'production',
-      apiUrl: process.env.NEXT_PUBLIC_API_URL || 'not able to load it',
-      features: [
-        'irrigation-control',
-        'water-usage-monitoring',
-        'smart-scheduling'
-      ]
-    }
+    logo: '/logo-netirrig.png',
+    primaryColor: '#0077B6'
   }
 };
 
-// Get the configuration for the current platform and environment
-export function getPlatformConfig(): PlatformConfig {
-  const platform = getCurrentPlatform();
-  const environment = getCurrentEnvironment();
-
-  return configs[platform][environment];
-}
+export const platformConfig: PlatformConfig = {
+  ...config[PLATFORM]
+};

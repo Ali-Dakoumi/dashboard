@@ -11,52 +11,61 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { UserAvatarProfile } from '@/components/user-avatar-profile';
 import { useRouter } from 'next/navigation';
-export function UserNav() {
-  const user = {
-    // mock user
-    fullName: 'User User',
-    emailAddresses: [{ emailAddress: 'KbV2t@example.com' }]
+import { SignOutButton } from '../sign-out-button';
+import { useUser } from '@/lib/hooks/use-user';
+import { useSession } from 'next-auth/react';
+
+interface UserData {
+  billing_details: {
+    company: string;
   };
+  user_type: string;
+}
+
+export function UserNav() {
+  const { data: session, status } = useSession();
   const router = useRouter();
-  if (user) {
-    return (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant='ghost' className='relative h-8 w-8 rounded-full'>
-            <UserAvatarProfile user={user} />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent
-          className='w-56'
-          align='end'
-          sideOffset={10}
-          forceMount
-        >
-          <DropdownMenuLabel className='font-normal'>
-            <div className='flex flex-col space-y-1'>
-              <p className='text-sm leading-none font-medium'>
-                {user.fullName}
-              </p>
-              <p className='text-muted-foreground text-xs leading-none'>
-                {user.emailAddresses[0].emailAddress}
-              </p>
-            </div>
-          </DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuGroup>
-            <DropdownMenuItem onClick={() => router.push('/dashboard/profile')}>
-              Profile
-            </DropdownMenuItem>
-            <DropdownMenuItem>Billing</DropdownMenuItem>
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem>New Team</DropdownMenuItem>
-          </DropdownMenuGroup>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <p>Logout</p>
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant='ghost' className='relative h-8 w-8 rounded-full'>
+          <UserAvatarProfile user={session?.user as any} />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        className='w-56'
+        align='end'
+        sideOffset={10}
+        forceMount
+      >
+        <DropdownMenuLabel className='font-normal'>
+          <div className='flex flex-col space-y-1'>
+            <p className='text-sm leading-none font-medium'>
+              {session?.user?.name}
+            </p>
+            <p className='text-muted-foreground text-xs leading-none'>
+              {session?.user?.email}
+            </p>
+          </div>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem onClick={() => router.push('/dashboard/profile')}>
+            Profile
           </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    );
-  }
+          <DropdownMenuItem onClick={() => router.push('/dashboard/billing')}>
+            Billing
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push('/dashboard/settings')}>
+            Settings
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          <SignOutButton />
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 }

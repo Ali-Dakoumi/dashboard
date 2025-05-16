@@ -8,6 +8,7 @@ import {
   CardAction,
   CardFooter
 } from '@/components/ui/card';
+import { envConfig } from '@/lib/config';
 import { IconTrendingDown, IconTrendingUp } from '@tabler/icons-react';
 import React from 'react';
 
@@ -27,7 +28,7 @@ export default function OverViewLayout({
       <div className='flex flex-1 flex-col space-y-2'>
         <div className='flex items-center justify-between space-y-2'>
           <h2 className='text-2xl font-bold tracking-tight'>
-            {process.env.NEXT_PLATFORM || 'null'}
+            {envConfig.PLATFORM || 'null'}
           </h2>
         </div>
 

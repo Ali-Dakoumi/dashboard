@@ -1,11 +1,10 @@
-import { redirect } from 'next/navigation';
-
-export default async function Dashboard() {
-  // const { userId } = await auth();
-
-  // if (!userId) {
-  //   return redirect('/auth/sign-in');
-  // } else {
-  redirect('/dashboard/overview');
-  // }
+import { Suspense } from 'react';
+import DashboardLoading from './loading';
+import DashboardContent from './dashboard-content';
+export default function DashboardPage() {
+  return (
+    <Suspense fallback={<DashboardLoading />}>
+      <DashboardContent />
+    </Suspense>
+  );
 }
