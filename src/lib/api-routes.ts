@@ -1,64 +1,45 @@
-// Define the API routes with their request and response types
+// lib/api/routes.ts
+
 export const apiRoutes = {
   auth: {
     signIn: {
       path: '/auth/signin',
-      method: 'POST' as const,
-      // Define request and response types
-      request: {} as {
-        email: string;
-        password: string;
+      method: 'POST',
+      request: {
+        email: '',
+        password: ''
       },
-      response: {} as {
-        message: string;
-        token: string;
-        userid: string;
-        email: string;
-        username: string;
-        user_type: string;
-        status: string;
+      response: {
+        message: '',
+        token: '',
+        userid: '',
+        email: '',
+        username: '',
+        user_type: '',
+        status: ''
       }
     }
-    // Add other auth routes
   },
   user: {
     status: {
       path: '/user/status',
-      method: 'GET' as const,
-      response: {} as {
-        user_type: string;
-        status: string;
+      method: 'GET',
+      response: {
+        user_type: '',
+        status: ''
       }
     },
     updateProfile: {
       path: '/user/profile',
-      method: 'PUT' as const,
-      request: {} as {
-        name?: string;
-        email?: string;
+      method: 'PUT',
+      request: {
+        name: '',
+        email: ''
       },
-      response: {} as {
-        message: string;
-        success: boolean;
+      response: {
+        message: '',
+        success: false
       }
     }
-    // Add other user routes
   }
-  // Add other API sections
-};
-
-// Type helper for extracting request and response types
-export type ApiRoute<
-  T extends keyof typeof apiRoutes,
-  U extends keyof (typeof apiRoutes)[T]
-> = (typeof apiRoutes)[T][U];
-
-export type ApiRequest<
-  T extends keyof typeof apiRoutes,
-  U extends keyof (typeof apiRoutes)[T]
-> = (typeof apiRoutes)[T][U]['request'];
-
-export type ApiResponse<
-  T extends keyof typeof apiRoutes,
-  U extends keyof (typeof apiRoutes)[T]
-> = (typeof apiRoutes)[T][U]['response'];
+} as const;

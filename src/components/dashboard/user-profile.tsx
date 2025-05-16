@@ -7,7 +7,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { UserCircle } from 'lucide-react';
 
 export function UserProfile() {
-  const { data, isLoading } = useUser();
+  const { data, isLoading }: { data: any; isLoading: boolean } = useUser();
 
   if (isLoading) {
     return (

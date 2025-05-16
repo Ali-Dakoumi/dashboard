@@ -156,10 +156,8 @@ export default function AppSidebar() {
                     user={{
                       imageUrl:
                         'https://api.slingacademy.com/public/sample-users/1.png',
-                      fullName: 'John Doe',
-                      emailAddresses: [
-                        { emailAddress: 'john.doe@slingacademy.com' }
-                      ]
+                      name: 'John Doe',
+                      email: 'john.doe@slingacademy.com'
                     }}
                   />
 
@@ -180,10 +178,8 @@ export default function AppSidebar() {
                       user={{
                         imageUrl:
                           'https://api.slingacademy.com/public/sample-users/1.png',
-                        fullName: 'John Doe',
-                        emailAddresses: [
-                          { emailAddress: 'john.doe@slingacademy.com' }
-                        ]
+                        name: 'John Doe',
+                        email: 'john.doe@slingacademy.com'
                       }}
                     />
                   </div>
