@@ -94,8 +94,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           const { message, token, ...rest } = response.data;
 
-          console.log('🚀 ~ authorize ~ response:', response);
-
           if (message === 'success' && token) {
             return {
               id: rest.userid,
