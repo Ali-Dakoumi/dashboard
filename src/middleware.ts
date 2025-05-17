@@ -1,17 +1,21 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/auth';
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import { getToken } from 'next-auth/jwt';
+import { auth } from './auth';
 
-export default async function middleware(req: NextRequest) {
-  // check if the user is authenticated
+export async function middleware(request: NextRequest) {
+  // This uses Auth.js's built-in token verification
   const session = await auth();
+
   if (!session) {
-    return NextResponse.redirect(new URL('/', req.url));
+    return NextResponse.redirect(new URL('/', request.url));
   }
 
-  // check if the user is authorized to access the requested page
+  // Check if token is expired (Auth.js handles this internally)
+  // But you can add additional checks if needed
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/account/:path*']
+  matcher: ['/dashboard/:path*', '/profile/:path*']
 };
