@@ -63,7 +63,6 @@ class AuthenticationError extends Error {
 export const { handlers, signIn, signOut, auth } = NextAuth({
   session: { strategy: 'jwt' },
   trustHost: true,
-  debug: process.env.NODE_ENV === 'development',
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -105,57 +104,43 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               token: token
             };
           } else {
-            const authError = new Error('Authentication failed');
-            authError.cause = {
-              message: 'Authentication failed',
-              statusCode: 401
-            } as ErrorCause;
-            throw authError;
+            // Auth.js will handle this error appropriately
+            throw new Error('Authentication failed');
           }
-        } catch (error) {
-          const axiosError = error as AxiosError;
+        } catch (error: any) {
+          // Handle specific error cases with clear messages
+          if (error.response) {
+            // Handle HTTP error responses
+            const status = error.response.status;
 
-          if (error instanceof Error && error.cause) {
+            if (status === 401) {
+              throw new Error('Invalid email or password');
+            } else if (status === 429) {
+              throw new Error(
+                'Too many login attempts. Please try again later.'
+              );
+            } else if (status === 403) {
+              throw new Error('Account locked. Please contact support.');
+            } else if (status >= 500) {
+              throw new Error('Server error. Please try again later.');
+            }
+          }
+
+          // Handle network errors
+          if (
+            error.code === 'ECONNABORTED' ||
+            error.message.includes('timeout')
+          ) {
+            throw new Error('Connection timeout. Please try again later.');
+          }
+
+          // If error already has a message from our code, pass it through
+          if (error instanceof Error) {
             throw error;
           }
 
-          if (axiosError.message.includes('ETIMEDOUT')) {
-            const timeoutError = new Error(
-              'Connection timeout. Please try again later.'
-            );
-            timeoutError.cause = {
-              message: 'Connection timeout. Please try again later.',
-              statusCode: 408
-            } as ErrorCause;
-            throw timeoutError;
-          }
-
-          if (axiosError.message.includes('401')) {
-            const credentialsError = new Error('Invalid email or password');
-            credentialsError.cause = {
-              message: 'Invalid email or password',
-              statusCode: 401
-            } as ErrorCause;
-            throw credentialsError;
-          }
-
-          if (axiosError.message.includes('429')) {
-            const rateLimitError = new Error(
-              'Too many login attempts. Please try again later.'
-            );
-            rateLimitError.cause = {
-              message: 'Too many login attempts. Please try again later.',
-              statusCode: 429
-            } as ErrorCause;
-            throw rateLimitError;
-          }
-
-          const genericError = new Error('Authentication failed');
-          genericError.cause = {
-            message: 'Authentication failed',
-            statusCode: axiosError.response?.status || 500
-          } as ErrorCause;
-          throw genericError;
+          // Default error
+          throw new Error('Authentication failed');
         }
       }
     })
