@@ -4,8 +4,15 @@ import { getToken } from 'next-auth/jwt';
 import { auth } from './auth';
 
 export async function middleware(request: NextRequest) {
+  let session = null;
+
+  try {
+    session = await auth();
+  } catch (error) {
+    console.error('🚀 ~ middleware ~ error:', error);
+  }
   // This uses Auth.js's built-in token verification
-  const session = await auth();
+  // const session = await auth();
 
   if (!session) {
     return NextResponse.redirect(new URL('/', request.url));
