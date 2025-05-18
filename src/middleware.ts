@@ -6,6 +6,11 @@ import { auth } from './auth';
 export async function middleware(request: NextRequest) {
   let session = null;
 
+  if (!process.env.NEXTAUTH_SECRET || !process.env.NEXTAUTH_URL) {
+    console.error('❌ Missing NEXTAUTH_SECRET or NEXTAUTH_URL');
+    return NextResponse.next(); // Prevent crash
+  }
+
   try {
     session = await auth();
   } catch (error) {
